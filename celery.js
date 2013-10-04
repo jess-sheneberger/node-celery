@@ -28,7 +28,10 @@ function Configuration(options) {
 	self.RESULT_EXCHANGE = self.RESULT_EXCHANGE || 'celeryresults';
 	self.TASK_RESULT_EXPIRES = self.TASK_RESULT_EXPIRES || 86400000; // 1 day
 	self.ROUTES = self.ROUTES || {};
-        self.AMQP_RECONNECT = self.AMQP_RECONNECT || true;
+        
+        if (self.AMQP_RECONNECT === null || self.AMQP_RECONNECT === undefined) {
+            self.AMQP_RECONNECT = true;
+        }
 
 	if (self.RESULT_BACKEND && self.RESULT_BACKEND.toLowerCase() === 'amqp') {
 		self.backend_type = 'amqp';
