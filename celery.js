@@ -28,6 +28,7 @@ function Configuration(options) {
 	self.RESULT_EXCHANGE = self.RESULT_EXCHANGE || 'celeryresults';
 	self.TASK_RESULT_EXPIRES = self.TASK_RESULT_EXPIRES || 86400000; // 1 day
 	self.ROUTES = self.ROUTES || {};
+        self.AMQP_RECONNECT = self.AMQP_RECONNECT || true;
 
 	if (self.RESULT_BACKEND && self.RESULT_BACKEND.toLowerCase() === 'amqp') {
 		self.backend_type = 'amqp';
@@ -49,7 +50,8 @@ function Client(conf, callback) {
 	self.broker = amqp.createConnection({
 		url: self.conf.BROKER_URL
 	}, {
-		defaultExchangeName: self.conf.DEFAULT_EXCHANGE
+		defaultExchangeName: self.conf.DEFAULT_EXCHANGE,
+                reconnect: self.conf.AMQP_RECONNECT
 	}, callback);
 
 	if (self.conf.backend_type === 'amqp') {
